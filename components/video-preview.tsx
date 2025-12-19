@@ -12,13 +12,22 @@ interface VideoPreviewProps {
 }
 
 export function VideoPreview({ clip }: VideoPreviewProps) {
-  const handleDownload = () => {
-    // TODO: Implement actual download functionality
-    // const link = document.createElement('a')
-    // link.href = clip.url
-    // link.download = 'clip.mp4'
-    // link.click()
-    console.log("[v0] Downloading clip...")
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(clip.url)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `viral-short-${Date.now()}.mp4`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error("Download failed:", error)
+      window.open(clip.url, '_blank')
+    }
   }
 
   const handleShare = (platform: string) => {
@@ -43,11 +52,13 @@ export function VideoPreview({ clip }: VideoPreviewProps) {
           </div>
         </div>
         <div className="p-6 lg:p-10 bg-muted">
-          <div className="aspect-[9/16] bg-card border-[4px] border-foreground max-w-sm mx-auto overflow-hidden">
-            <img
-              src={clip.url || "/placeholder.svg?height=1080&width=608"}
-              alt={clip.title}
+          <div className="aspect-[9/16] bg-black border-[4px] border-foreground max-w-sm mx-auto overflow-hidden relative">
+            <video
+              src={clip.url}
               className="w-full h-full object-cover"
+              controls
+              playsInline
+              loop
             />
           </div>
           <div className="mt-6 flex items-center justify-between text-xs font-mono border-[2px] border-foreground bg-card p-3">

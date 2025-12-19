@@ -117,15 +117,15 @@ export default function Home() {
                 </div>
               </div>
               <div className="p-6 lg:p-10 bg-muted">
-                <div className="aspect-[9/16] bg-card border-[4px] border-foreground flex items-center justify-center max-w-xs mx-auto">
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 border-[4px] border-foreground bg-accent flex items-center justify-center">
-                      <svg className="w-8 h-8 lg:w-10 lg:h-10" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                    <p className="font-mono text-xs font-bold tracking-wider">CLIP APPEARS HERE</p>
-                  </div>
+                <div className="aspect-[9/16] bg-black border-[4px] border-foreground flex items-center justify-center max-w-xs mx-auto overflow-hidden relative">
+                  <video
+                    src="/vid-v4Dd7J8jXrj_hcbvXg3ZA_processed.mp4"
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
                 </div>
               </div>
             </div>
