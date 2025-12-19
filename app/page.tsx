@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { VideoUploader } from "@/components/video-uploader"
-import { StatsGrid } from "@/components/stats-grid"
+
 
 export default function Home() {
   const router = useRouter()
@@ -133,8 +133,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <StatsGrid />
 
       {/* How It Works */}
       <section className="border-b-[6px] border-foreground bg-secondary">
