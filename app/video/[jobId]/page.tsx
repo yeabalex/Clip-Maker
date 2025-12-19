@@ -30,7 +30,7 @@ export default function VideoResultPage() {
     useEffect(() => {
         if (jobId) {
             pollJob(jobId)
-            pollInterval.current = setInterval(() => pollJob(jobId), 2000)
+            pollInterval.current = setInterval(() => pollJob(jobId), 10000)
         }
     }, [jobId])
 

@@ -36,26 +36,55 @@ export async function POST(request: Request) {
         const apiKey = process.env.API_KEY;
         const url = process.env.URL;
 
-        if (!apiKey || !url) {
-            console.warn('API_KEY or URL is not defined in environment variables');
+        // Debug logging
+        console.log('Attempting to start execution...');
+        console.log('API_KEY present:', !!apiKey);
+        if (apiKey) {
+            console.log('API_KEY length:', apiKey.length);
+            console.log('API_KEY first 4 chars:', apiKey.substring(0, 4));
+        }
+        console.log('Target URL:', url || 'Default AWS URL');
+
+        if (!apiKey) {
+            console.error('Configuration Error: API_KEY is not defined in environment variables');
+            return NextResponse.json({ error: 'Server misconfiguration: Missing API Key' }, { status: 500 });
         }
 
-        const externalResponse = await fetch(url || 'https://r8947gxm05.execute-api.us-east-1.amazonaws.com/Prod/start-execution', {
+        const awsUrl = url || 'https://r8947gxm05.execute-api.us-east-1.amazonaws.com/Prod/start-execution';
+
+        const externalResponse = await fetch(awsUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': apiKey || '',
+                'x-api-key': apiKey.trim(), // Ensure no whitespace
             },
             body: JSON.stringify(payload),
         });
 
-        const data = await externalResponse.json();
+        console.log('AWS Response Status:', externalResponse.status);
+
+        let data;
+        const responseText = await externalResponse.text();
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('Failed to parse AWS response as JSON:', responseText);
+            data = { message: responseText };
+        }
+
+        if (!externalResponse.ok) {
+            //console.error('AWS API Error:', data);
+            return NextResponse.json({
+                error: 'Upstream API Error',
+                details: data,
+                status: externalResponse.status
+            }, { status: externalResponse.status });
+        }
 
         return NextResponse.json({
-            ...data,
             job_id, // Return generated IDs back to client if needed
             video_name
-        }, { status: externalResponse.status });
+        }, { status: 200 });
 
     } catch (error) {
         console.error('Error in start-execution handler:', error);
