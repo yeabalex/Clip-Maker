@@ -27,17 +27,13 @@ export function VideoUploader({ videoUrl, setVideoUrl, onGenerate, isProcessing 
         />
         <Button
           onClick={onGenerate}
-          disabled={isProcessing || !videoUrl.trim()}
+          disabled={true}
           className="w-full bg-foreground text-background hover:bg-accent hover:text-accent-foreground font-mono tracking-wider px-6 py-6 lg:py-7 text-sm lg:text-base font-bold disabled:opacity-50 border-[3px] border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5"
         >
-          {isProcessing ? (
-            <span className="flex items-center gap-2">
-              <span className="inline-block w-2 h-2 bg-accent animate-pulse"></span>
-              PROCESSING...
-            </span>
-          ) : (
-            "GENERATE CLIP"
-          )}
+          <span className="flex items-center gap-2">
+            <span className="inline-block w-2 h-2 bg-red-500"></span>
+            OUT OF CREDITS
+          </span>
         </Button>
       </div>
       <div className="mt-4 pt-4 border-t-[2px] border-foreground/20">
