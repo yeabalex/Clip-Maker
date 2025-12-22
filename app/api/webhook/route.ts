@@ -3,6 +3,26 @@ import redis from '@/lib/redis';
 
 export async function POST(request: Request) {
     try {
+        // Verify webhook authentication
+        const webhookSecret = process.env.WEBHOOK_SECRET;
+        const providedSecret = request.headers.get('X-Webhook-Secret');
+
+        if (!webhookSecret) {
+            console.error('WEBHOOK_SECRET is not configured in environment variables');
+            return NextResponse.json(
+                { error: 'Webhook authentication not configured' },
+                { status: 500 }
+            );
+        }
+
+        if (!providedSecret || providedSecret !== webhookSecret) {
+            console.warn('Unauthorized webhook attempt');
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
+
         let body = await request.json();
 
         // Handle the case where the payload is wrapped in an API Gateway style response
