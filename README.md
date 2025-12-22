@@ -15,7 +15,8 @@ This application analyzes YouTube videos to identify "peak moments" and automati
 
 ### Architecture Overview
 
-![Architecture Diagram](C:/Users/user/.gemini/antigravity/brain/f30b5fe7-b401-45e3-8a53-7c079d832f95/uploaded_image_1766386386982.png)
+<img width="1278" height="1257" alt="sysarch_clip drawio" src="https://github.com/user-attachments/assets/95f21439-bcd2-4742-af93-65763ed5bbfb" />
+
 
 The backend is built on a fully serverless AWS architecture, orchestrated by AWS Step Functions with the following components:
 
